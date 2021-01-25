@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myModule">
+<head>
+    <script src="scripts/angular.js"> </script>
+    <script src="scripts/ScriptController.js"> </script>
+    <script src="scripts/Filter.js"> </script>
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body  >
+<div ng-controller="nameController">
+    <div>
+        FirstName: {{name.firstName}}
+    </div>
+    <div>
+        LastName: {{name.lastName}}
+    </div>
+    <div>
+        DOB: {{name.dob}}
+    </div>
+</div>
+<br>
+
+<div><b>Image and source controller</b></div><br>
+
+<div ng-controller="flagController">
+    <div>
+        CountryName: {{countryName.name}}
+    </div>
+    <div>
+        Capital: {{countryName.capital}}
+    </div>
+    <div>
+        <img ng-src="{{countryName.flag}}"
+             alt="{{ countryName.name + ' Flag' }}"
+             style="height:100px; width:100px" >
+    </div>
+
+</div>
+<br>
+<div><b>Two way binding</b></div><br>
+<div ng-controller="twoWayController">
+    <input type="text" ng-model=message>
+    <br /><br />
+    {{message}}
+    <br/><br/>
+    <input type="text" ng-model="greetings">
+    <br/><br />
+    {{greetings}}
+</div>
+<br/> <br/>
+<div ng-controller="twoWayTextController"> <b> Two Way Text Binding</b>
+    <table>
+        <tr>
+            <td>
+                First Name :
+            </td>
+            <td>
+                <input type="text" ng-model=name.firstName>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Last Name :
+            </td>
+            <td>
+                <input type="text" ng-model=name.lastName>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                DOB :
+            </td>
+            <td>
+                <input type="text" ng-model=name.dob>
+            </td>
+        </tr>
+
+    </table>
+    <br/>
+    <table>
+        <tr>
+            <td>
+                First Name :
+            </td>
+            <td>
+               {{name.firstName}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Last Name :
+            </td>
+            <td>
+                {{name.lastName}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                DOB :
+            </td>
+            <td>
+                {{name.dob}}
+            </td>
+        </tr>
+    </table>
+</div>
+<br/>
+
+<div ng-controller="repeatControllerSingle"><b>Single Repeat directive </b>
+    <br/>
+    <table>
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Salary</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="employee in employees">
+            <td>{{employee.firstName}}</td>
+            <td>{{employee.lastName}}</td>
+            <td>{{employee.gender}}</td>
+            <td>{{employee.salary}}</td>
+
+        </tr>
+
+        </tbody>
+    </table>
+
+
+</div>
+<br/><br/>
+<div ng-controller="repeatControllerNested"> <b>Nested repeat directive</b>
+    <ul>
+        <li ng-repeat="country in countries" ng-init="parentIndex=$index">
+            {{country.name}} -Index {{parentIndex}}
+            <ul>
+                <li ng-repeat="city in country.city">
+                    {{city.name}} -ParentIndex {{parentIndex}} -Index {{$index}}
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+</div>
+<br><br>
+<div ng-controller="eventHandling"> <b>Event Handling</b>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Likes</th>
+                <th>Dislikes</th>
+                <th>Like/Dislike</th>
+            </tr>
+        </thead>
+        <tbody>
+             <tr ng-repeat="technology in technologies">
+                    <td> {{ technology.name }} </td>
+                    <td style="text-align:center"> {{ technology.likes }} </td>
+                     <td style="text-align:center"> {{ technology.dislikes }} </td>
+                    <td>
+                    <input type="button" ng-click="incrementLikes(technology)" value="Like" />
+                    <input type="button" ng-click="incrementDislikes(technology)" value="Dislike" />
+                     </td>
+             </tr>
+         </tbody>
+    </table>
+
+</div>
+<br/><br/>
+<div ng-controller="FilterOrderBYHeaderTable"><b>Filtering the values</b>
+    <p>AngularJS Filters :uppercase, date, lowercase, number, currency, limitTo</p>
+    <p>filter, json, orderBy</p>
+
+    Rows to Display: <input type="number" step="1" min="0" max="8" ng-model="rowLimit" />
+    <br /><br />
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Salary (number)</th>
+            <th>Salary (currency)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="employee in employees | limitTo:rowLimit">
+            <td>{{employee.name | uppercase}}</td>
+            <td>{{employee.dateOfBirth | date: "dd/MMM/yyyy" }}</td>
+            <td>{{employee.gender | lowercase}}</td>
+            <td>{{employee.salary |number:2}}</td>
+            <td>{{employee.salary | currency:"$":1}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+ <br />
+<div ng-controller="FilterOrderBYHeaderTable">
+    <p><b>AngularJS Filters: orderBy</b></p>
+    <br />
+    Order By:
+    <select ng-model="sortColumn">
+        <option value="name">Name Asc</option>
+        <option value="DateOfBirth">DOB Asc</option>
+        <option value="gender">Gender Asc</option>
+        <option value="-salary">Salary DESC</option>
+    </select>
+    <br />
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Salary</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="employee in employees|orderBy: sortColumn">
+            <td>{{employee.name | uppercase}}</td>
+            <td>{{employee.dateOfBirth | date: "dd/MM/yyyy" }}</td>
+            <td>{{employee.gender | lowercase}}</td>
+            <td>{{employee.salary}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br/>
+<div ng-controller="FilterOrderBYHeaderTable">
+    <style>
+        .arrow-up {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 10px solid black;
+            display: inline-block;
+        }
+        .arrow-down {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 10px solid black;
+            display: inline-block;
+        }
+        th{
+         cursor: pointer;
+        }
+    </style>
+    <p><b>AngularJS Sorting | sorting on the basis of table header</b></p>
+    <table>
+        <thead>
+        <tr>
+            <th ng-click="sortData('name')">Name <div ng-class="getSortClass('name')"></div></th>
+            <th ng-click="sortData('dateOfBirth')">Date of Birth <div ng-class="getSortClass('dateOfBirth')"></div></th>
+            <th ng-click="sortData('gender')">Gender <div ng-class="getSortClass('gender')"></div></th>
+            <th ng-click="sortData('salary')">Salary <div ng-class="getSortClass('salary')"></div></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="employee in employees|orderBy:sortColumn:reverseSort">
+            <td>{{employee.name | uppercase}}</td>
+            <td>{{employee.dateOfBirth | date: "dd/MM/yyyy" }}</td>
+            <td>{{employee.gender | lowercase}}</td>
+            <td>{{employee.salary}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br/>
+<div ng-controller="FilterOrderBYHeaderTable">
+    <p><b>Filter operation </b></p>
+    Search : <input type="text" ng-model="searchText" placeholder="Search employees" />
+    <br /><br />
+    <table>
+        <thead>
+            <tr>
+                 <th>Name</th>
+                <th>Gender</th>
+                <th>Date Of Birth</th>
+                 <th>Salary</th>
+             </tr>
+        </thead>
+    <tbody>
+        <tr ng-repeat="employee in employees | filter:searchText">
+            <td> {{ employee.name }} </td>
+            <td> {{ employee.gender }} </td>
+            <td> {{ employee.dateOfBirth | date:"yyyyMMdd" }} </td>
+            <td> {{ employee.salary  }} </td>
+
+    </tr>
+    </tbody>
+    </table>
+</div>
+
+<br/>
+<div ng-controller="FilterOrderBYHeaderTable">
+    <p><b>Double Filter operation </b></p>
+    <input type="text" ng-model="searchText.name" placeholder="Search name" />
+    <input type="text" ng-model="searchText.gender" placeholder="Search gender" />
+    <input type="checkbox"  ng-model="exactMatch"/> Exact match
+    <br /><br />
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Date Of Birth</th>
+            <th>Salary</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="employee in employees | filter:searchText:exactMatch">
+            <td> {{ employee.name }} </td>
+            <td> {{ employee.gender }} </td>
+            <td> {{ employee.dateOfBirth | date:"yyyyMMdd" }} </td>
+            <td> {{ employee.salary  }} </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br/>
+<div ng-controller="customFilter">
+    <p><b>Custom Filter operation </b></p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Salary</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="employee in employees ">
+            <td> {{ employee.firstName }} </td>
+            <td> {{ employee.lastName }} </td>
+            <td> {{ employee.gender | gender }} </td>
+            <td> {{ employee.salary  }} </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<div ng-controller="customFilter">
+    <p><b>Hide and show operator </b></p>
+    <input type="checkbox" ng-model="hideSalary">Hide Salary
+
+    <table>
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th ng-hide="hideSalary">Salary</th>
+            <th ng-show="hideSalary">Salary</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="employee in employees ">
+            <td> {{ employee.firstName }} </td>
+            <td> {{ employee.lastName }} </td>
+            <td> {{ employee.gender | gender }} </td>
+            <td ng-hide="hideSalary"> {{ employee.salary  }} </td>
+            <td ng-show="hideSalary"> ###### </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<div ng-controller="customFilter">
+    <p><b>Include operator </b></p>
+    Select View :
+    <select ng-model="employeeView">
+        <option value="EmployeeTable.html">Table</option>
+        <option value="EmployeeList.html">List</option>
+    </select>
+    <br/>
+    <div ng-include="employeeView"></div>
+
+</div>
+
+
+
+</body>
+</html>

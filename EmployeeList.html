@@ -1,0 +1,10 @@
+<ul>
+    <li ng-repeat="employee in employees">
+        {{employee.firstName}}
+        <ul>
+            <li >{{employee.gender | gender }}</li>
+            <li>{{employee.salary}}</li>
+
+        </ul>
+    </li>
+</ul>
